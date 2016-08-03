@@ -1,0 +1,21 @@
+#!/bin/bash
+
+PROJECT=es-source-db
+SERVERS=elastic-group
+gcloud=/usr/bin/gcloud
+port=9200
+
+sudo cp -f /opt/haproxy/haproxy.cfg.template /opt/haproxy/haproxy.cfg
+
+for machine in $($gcloud compute instances list --project=$PROJECT | grep $SERVERS | awk {'print $1'}); do
+    sudo echo "    server $machine $machine:$port check" >> /opt/haproxy/haproxy.cfg
+done
+
+# check if config files do not match
+if [ "$(diff /etc/haproxy/haproxy.cfg /opt/haproxy/haproxy.cfg | tr -d '\n' | cut -c1-4 )" != "" ]
+then
+  echo "Updating /etc/haproxy/haproxy.cfg !!!"
+  sudo cp -fr /opt/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg
+  echo "Restarting haproxy !!!"
+  sudo systemctl restart haproxy.service
+fi
