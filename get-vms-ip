@@ -19,3 +19,10 @@ then
   echo "Restarting haproxy !!!"
   sudo systemctl restart haproxy.service
 fi
+els=''
+for machine in $(gcloud compute instances list | grep elastic-group | awk {'print $1'}); do
+        els=$els,\"$machine\"
+done
+ echo $els | sed 's/^.//' > restr
+ echo $restr
+ discovery.zen.ping.unicast.hosts: ["pro-elastic-admin","elastic-group-dvvh","elastic-group-gqln","elastic-group-l9ez"]
