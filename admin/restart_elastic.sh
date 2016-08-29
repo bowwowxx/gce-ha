@@ -9,4 +9,4 @@ for machine in $($gcloud compute instances list --project=$PROJECT | grep $SERVE
     ssh -o "StrictHostKeyChecking no" andy@$machine "sudo docker restart elastic"
 done
 
-sudo docker restart elastic
+#sudo docker restart elastic

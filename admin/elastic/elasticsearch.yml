@@ -1,0 +1,27 @@
+marvel.agent.enabled: false
+cluster.name: pro-metadata
+node.name: ${HOSTNAME}
+node.master: true
+node.data: true
+index.number_of_shards: 1
+index.number_of_replicas: 0
+index.auto_expand_replicas: "0-all"
+index.store.type: memory
+bootstrap.mlockall: true
+index.cache.field.max_size: 50000
+index.cache.field.expire: 10m
+index.cache.field.type: soft
+threadpool.index.type: fixed
+threadpool.index.size: 100
+threadpool.index.queue_size: 500
+discovery.zen.ping.multicast.enabled: false  
+discovery.zen.ping.unicast.hosts: ["pro-elastic-admin","elastic-group-v66y","elastic-group-xya1"]
+
+th:
+data: /data/data
+logs: /data/log
+plugins: /data/plugins
+work: /data/work
+
+http.cors.allow-origin: "/.*/"
+http.cors.enabled: true
